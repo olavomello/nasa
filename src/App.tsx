@@ -20,20 +20,35 @@ function App() {
 
   // 
   function getAPOD() {
-    console.log("Access endpoint");
+    // Start loading 
+    setApiData(
+      {
+        title: "Loading...",
+        hdurl: "",
+        url:""
+      }
+    );
+    
     fetch(ENDPOINT)
       .then(response => response.json())
       .then(data => setApiData(data) )
+  }
+
+  // Create button component
+  const Button = ( props: { title: string } ) => {
+    return (
+        <button onClick={() => getAPOD()}>{props?.title || "Get item"}</button>
+    );
   }
 
 
   return (
     <div className="wrapper">
       <h1>{apiData?.title || "Wait"}</h1>
-      <div>{ apiData?.hdurl ? <img src={apiData?.hdurl}/> : "" }</div>
       <div className="action">
-        <button onClick={() => getAPOD()}>Get image</button>
+        <Button title="Get random Nasa photo"/>
       </div>
+      { apiData?.hdurl ? <img src={apiData?.hdurl}/> : "" }
     </div>
   )
 }
